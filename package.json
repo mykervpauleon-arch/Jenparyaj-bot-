@@ -1,4 +1,5 @@
-name": "jenparyaj-bot",
+{
+  "name": "jenparyaj-bot",
   "version": "1.0.0",
   "description": "Bot pou rale match foutbòl pou Jèn Paryaj",
   "main": "index.js",
