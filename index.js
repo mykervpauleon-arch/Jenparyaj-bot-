@@ -1,11 +1,13 @@
 const axios = require('axios');
+const express = require('express'); // Nou ajoute sa pou Render ka aksepte l gratis
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 const BASE44_APP_ID = "69ffa8c3e6e68da151011547";
 const BASE44_API_KEY = "fd5f2d451d9641aa88ea7e8e121b79b7";
 const BASE44_API_URL = "https://jen-paryaj-win.base44.app/api/entities/FootballMatch/bulk";
 
-// Mete kle API-Sports pa w la nan mitan de ti kouto sa yo:
-const API_SPORTS_KEY = "b7e8e6682155d39110c9a64cfee0d4b3"; 
+const API_SPORTS_KEY = "b7e8e6682155d39110c9a64cfee0d4b3"; // Kle ou te mete a
 const API_SPORTS_URL = "https://v3.football.api-sports.io/fixtures";
 
 async function sinkwonizeMatchYo() {
@@ -42,7 +44,7 @@ async function sinkwonizeMatchYo() {
 
         console.log(`N ap voye ${matchPouBase44.length} match sou Base44...`);
 
-        const reponsBase44 = await axios.post(BASE44_API_URL, matchPouBase44, {
+        await axios.post(BASE44_API_URL, matchPouBase44, {
             headers: {
                 'Content-Type': 'application/json',
                 'api_key': BASE44_API_KEY
@@ -55,4 +57,15 @@ async function sinkwonizeMatchYo() {
     }
 }
 
-sinkwonizeMatchYo();
+// Yon rout senp pou w ka deklanche robo a nenpòt lè nan navigatè w
+app.get('/rale-match', async (req, res) => {
+    await sinkwonizeMatchYo();
+    res.send("Robo a fin kouri! Gade liy konsòl Render a pou siksè a.");
+});
+
+// Sa ap kenbe sèvis la ap koute sou Render gratis
+app.listen(PORT, () => {
+    console.log(`Sèvis la ap kouri sou pò ${PORT}`);
+    // Nou ka lanse l yon premye fwa otomatikman lè l limen
+    sinkwonizeMatchYo();
+});
